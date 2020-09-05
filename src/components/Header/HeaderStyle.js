@@ -54,6 +54,9 @@ const NavSearch = styled.input`
     &::placeholder {
         letter-spacing:2px;
     }
+    &.slider {
+        width:240px;
+    }
 `;
 const Addition = styled.div `
     position:absolute;
@@ -83,17 +86,31 @@ const SearchWrapper = styled.div `
     float:left;
     position:relative;
     margin-left:20px;
+    .slider-enter,
+    .slider-exit
+    {
+        transition:all .2s ease-out;
+    }
+    .slider-enter-active {
+        width:240px;
+    }
+    .slider-exit-active { 
+        width:180px; 
+    }
     &>.iconfont {
         position:absolute;
         top:13px;
         right:4px;
-        // background-color:green;
+     
         height:30px;
         width:30px;
         border-radius:50%;
         text-align:center;
         line-height:30px;
         color:#969696;
+        &.slider {
+            background-color:green;
+        }
     }
 `
 export {

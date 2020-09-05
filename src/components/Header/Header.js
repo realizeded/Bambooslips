@@ -1,8 +1,11 @@
-import React,{Component} from 'react';
+import React,{Fragment} from 'react';
 import {HeaderStyle,LoGo,Nav,NavItem,NavSearch,Addition,Button,SearchWrapper} from './HeaderStyle';
 // console.log(LoGo);
-class Header extends Component {
-    render() {
+import {CSSTransition} from 'react-transition-group';
+import {connect} from 'react-redux';
+import {getSearchInputBlur,getSearchInputFocused} from '../../store/actionCreators';
+function Header(props) {
+        const {focused,handleInputBlur,handleInputFocus} = props;
         return (<HeaderStyle>
             <LoGo/>
             <Nav>
@@ -11,19 +14,41 @@ class Header extends Component {
                 <NavItem className="right">登陆</NavItem>
                 <NavItem className="right">Aa</NavItem>
                 <SearchWrapper>
-                        <NavSearch placeholder="搜索"/>
-                        <i class="iconfont">&#xe618;</i>
-                    </SearchWrapper>
+                    <CSSTransition in={focused} timeout={200} classNames="slider">
+                            <Fragment>
+                               <NavSearch placeholder="搜索" className={focused?'slider':''} onFocus={handleInputFocus} onBlur={handleInputBlur}/>
+                               <i className={focused?'slider iconfont':'iconfont'}>&#xe618;</i>
+                                </Fragment>
+                        </CSSTransition>
+                     </SearchWrapper>
+                   
                 <Addition>
                     <Button className="sign">注册</Button>
                     <Button className="wrarticle">
-                    <i class="iconfont">&#xe96a;</i>
+                    <i className="iconfont">&#xe96a;</i>
                         写文章
                         </Button>
                     </Addition>
                 </Nav>
                 
         </HeaderStyle>);
-    }
+    
 }
-export default Header;
+const mapStateToProps = function(state) {
+    return {
+        focused:state.focused
+    };
+}
+const mapDispatchToProps = function(dispatch) {
+    return {
+        handleInputFocus() {
+            const action = getSearchInputFocused();
+            dispatch(action);
+        },
+        handleInputBlur() {
+            const action = getSearchInputBlur();
+            dispatch(action);
+        }
+    };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
