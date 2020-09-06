@@ -1,11 +1,48 @@
-import React,{Fragment} from 'react';
-import {HeaderStyle,LoGo,Nav,NavItem,NavSearch,Addition,Button,SearchWrapper} from './HeaderStyle';
+import React,{Fragment,Component} from 'react';
+import {HeaderStyle,LoGo,Nav,NavItem,NavSearch,Addition,Button,SearchWrapper,
+    SearchInfo,SearchInfoHot,SerachInfoSwitch,SearchInfoTitle,SearchList,SearchListItem
+} from './HeaderStyle';
 // console.log(LoGo);
 import {CSSTransition} from 'react-transition-group';
 import {connect} from 'react-redux';
-import {getSearchInputBlur,getSearchInputFocused} from '../../store/actionCreators';
-function Header(props) {
-        const {focused,handleInputBlur,handleInputFocus} = props;
+import {getSearchInputBlur,getSearchInputFocused,getList as getSearchList,
+    getMouseInAction,
+    getMouseOutAction} from '../../store/actionCreators';
+
+class Header extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.getList = this.getList.bind(this);
+    }
+    getList() {
+        const {focused,list,handleMouseEnterSearch,handleMouseLeave,mouseIn} = this.props;
+        if(!focused&&!mouseIn) {
+            return null;
+        }
+        return ( <SearchInfo onMouseEnter={handleMouseEnterSearch} onMouseLeave={handleMouseLeave}>
+            <SearchInfoTitle>
+                <SearchInfoHot>
+                    热门搜索
+                    </SearchInfoHot>
+                    <SerachInfoSwitch>
+                        换一批
+                    </SerachInfoSwitch>
+                </SearchInfoTitle>
+                <SearchList>
+                   {
+                        list.map(item=>{
+                            return (<SearchListItem key={item}>
+                                    {item}
+                                </SearchListItem>)
+                        })
+                    }
+                </SearchList>
+        </SearchInfo>
+        );
+    }
+    render() {
+        const {focused,handleInputBlur,handleInputFocus} = this.props;
         return (<HeaderStyle>
             <LoGo/>
             <Nav>
@@ -20,8 +57,11 @@ function Header(props) {
                                <i className={focused?'slider iconfont':'iconfont'}>&#xe618;</i>
                                 </Fragment>
                         </CSSTransition>
-                     </SearchWrapper>
-                   
+                        {
+                            this.getList()
+                        }
+                   </SearchWrapper>
+
                 <Addition>
                     <Button className="sign">注册</Button>
                     <Button className="wrarticle">
@@ -32,22 +72,30 @@ function Header(props) {
                 </Nav>
                 
         </HeaderStyle>);
-    
+    }
 }
 const mapStateToProps = function(state) {
     return {
-        focused:state.focused
+        focused:state.get('header').get('focused'),
+        list:state.get('header').get('list'),
+        mouseIn:state.getIn(['header','mouseIn'])
     };
 }
 const mapDispatchToProps = function(dispatch) {
     return {
         handleInputFocus() {
-            const action = getSearchInputFocused();
-            dispatch(action);
+            dispatch(getSearchInputFocused());
+            dispatch(getSearchList());
         },
         handleInputBlur() {
             const action = getSearchInputBlur();
             dispatch(action);
+        },
+        handleMouseEnterSearch(e) {
+            dispatch(getMouseInAction());
+        },
+        handleMouseLeave(e) {
+            dispatch(getMouseOutAction());
         }
     };
 }

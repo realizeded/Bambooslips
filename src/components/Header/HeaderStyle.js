@@ -86,6 +86,7 @@ const SearchWrapper = styled.div `
     float:left;
     position:relative;
     margin-left:20px;
+    position:relative;
     .slider-enter,
     .slider-exit
     {
@@ -113,7 +114,49 @@ const SearchWrapper = styled.div `
         }
     }
 `
+const SearchInfo = styled.div`
+    position:absolute;
+    top:52px;
+    left:14px;
+    width:240px;
+    background-color:#fff;
+    box-shadow:0 0 8px rgba(0,0,0,0.2);
+    padding:14px;
+    box-sizing:border-box;
+`;
+const SearchInfoHot = styled.div`
+    float:left;
+    font-size:14px;
+    color:#787878;
+`;
+const SerachInfoSwitch = styled.a`
+    float:right;
+    font-size:13px;
+    color:#787878;
+`;
+const SearchInfoTitle = styled.div`
+    overflow:hidden;
+    line-height:30px;
+`;
+const SearchList = styled.div`
+    overflow:hidden;
+`;
+const SearchListItem = styled.div`
+    font-size:12px;
+    color:#787878;
+    border:1px solid #eee;
+    float:left;
+    padding:2px 12px;
+    margin-right:6px;
+    margin-bottom:6px;
+`;
 export {
+    SearchList,
+    SearchListItem,
+    SearchInfoTitle,
+    SearchInfoHot,
+    SerachInfoSwitch,
+    SearchInfo,
     SearchWrapper,
     Addition,
     Button,

@@ -1,6 +1,13 @@
 const INPUT_FOCUSE = Symbol('INPUT_FOCUSE');
+// const INPUT_BLUR = Symbol('INPUT_BLUR');
 const INPUT_BLUR = Symbol('INPUT_BLUR');
+const SEARCH_LIST = 'SEARCH_LIST';
+const MOUSEIN = 'MOUSE_IN';
+const MOUSEOUT = 'MOUSE_OUT';
 export {
     INPUT_BLUR,
-    INPUT_FOCUSE
+    INPUT_FOCUSE,
+    SEARCH_LIST,
+    MOUSEIN,
+    MOUSEOUT
 }
