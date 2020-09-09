@@ -1,4 +1,4 @@
-import React,{Fragment,Component} from 'react';
+import React,{Fragment,PureComponent} from 'react';
 import {HeaderStyle,LoGo,Nav,NavItem,NavSearch,Addition,Button,SearchWrapper,
     SearchInfo,SearchInfoHot,SerachInfoSwitch,SearchInfoTitle,SearchList,SearchListItem
 } from './HeaderStyle';
@@ -8,15 +8,15 @@ import {connect} from 'react-redux';
 import {getSearchInputBlur,getSearchInputFocused,getList as getSearchList,
     getMouseInAction,
     getMouseOutAction} from '../../store/actionCreators';
-
-class Header extends Component{
+import {Link} from 'react-router-dom';
+class Header extends PureComponent{
     constructor(props) {
         super(props);
         this.state = {};
         this.getList = this.getList.bind(this);
     }
     getList() {
-        const {focused,list,handleMouseEnterSearch,handleMouseLeave,mouseIn} = this.props;
+        const {focused,list,handleMouseEnterSearch,handleMouseLeave,mouseIn,handleSearchSwitch} = this.props;
         if(!focused&&!mouseIn) {
             return null;
         }
@@ -25,7 +25,8 @@ class Header extends Component{
                 <SearchInfoHot>
                     热门搜索
                     </SearchInfoHot>
-                    <SerachInfoSwitch>
+                    <SerachInfoSwitch onClick={handleSearchSwitch.bind(this)}>
+                    <i className="iconfont zoom" ref={rotateIcon=>this.rotateIcon = rotateIcon}>&#xe66c;</i>
                         换一批
                     </SerachInfoSwitch>
                 </SearchInfoTitle>
@@ -42,9 +43,11 @@ class Header extends Component{
         );
     }
     render() {
-        const {focused,handleInputBlur,handleInputFocus} = this.props;
+        const {focused,handleInputBlur,handleInputFocus,list} = this.props;
         return (<HeaderStyle>
-            <LoGo/>
+               <Link to="/">
+                   <LoGo/>
+                </Link>
             <Nav>
                 <NavItem className="left active">首页</NavItem>
                 <NavItem className="left">下载App</NavItem>
@@ -53,7 +56,7 @@ class Header extends Component{
                 <SearchWrapper>
                     <CSSTransition in={focused} timeout={200} classNames="slider">
                             <Fragment>
-                               <NavSearch placeholder="搜索" className={focused?'slider':''} onFocus={handleInputFocus} onBlur={handleInputBlur}/>
+                               <NavSearch placeholder="搜索" className={focused?'slider':''} onFocus={handleInputFocus.bind(this,list)} onBlur={handleInputBlur}/>
                                <i className={focused?'slider iconfont':'iconfont'}>&#xe618;</i>
                                 </Fragment>
                         </CSSTransition>
@@ -83,9 +86,13 @@ const mapStateToProps = function(state) {
 }
 const mapDispatchToProps = function(dispatch) {
     return {
-        handleInputFocus() {
-            dispatch(getSearchInputFocused());
-            dispatch(getSearchList());
+        handleInputFocus(list) {
+            
+            if(list.size==null) {
+                dispatch(getSearchList());
+            }
+            dispatch(getSearchInputFocused());   
+
         },
         handleInputBlur() {
             const action = getSearchInputBlur();
@@ -96,6 +103,15 @@ const mapDispatchToProps = function(dispatch) {
         },
         handleMouseLeave(e) {
             dispatch(getMouseOutAction());
+        },
+        handleSearchSwitch() {
+            let originDeg = this.rotateIcon.style.transform.replace(/[^0-9]/ig,'');
+            if(originDeg.length===0) {
+                originDeg = '0';
+            }
+            originDeg = parseInt(originDeg)+360;
+            this.rotateIcon.style.transform = `rotate(${originDeg}deg)`;
+            // console.log(this.rotateIcon.style.transform)
         }
     };
 }

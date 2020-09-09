@@ -5,7 +5,7 @@ const HeaderStyle = styled.div `
     height:56px;
     border-bottom:1px solid #b2bec3;
 `;
-const LoGo =styled.a `
+const LoGo =styled.div `
     position:absolute;
     left:0;
     top:0;
@@ -133,6 +133,14 @@ const SerachInfoSwitch = styled.a`
     float:right;
     font-size:13px;
     color:#787878;
+    .zoom {
+        transition:all 0.4s;
+        transform-origin:center center;
+        font-size:14px;
+        margin-right:4px;
+        display:block;
+        float:left;
+    }
 `;
 const SearchInfoTitle = styled.div`
     overflow:hidden;
