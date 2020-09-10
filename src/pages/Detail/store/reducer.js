@@ -1,13 +1,22 @@
 import {fromJS} from 'immutable';
+import {CHANGE_ARTICLE} from './actionType';
 const defaultState = fromJS(
     {
         article:{
-            title:'读《林徽因：人生不过一场绚烂诗事》',
-            content:`  <img alt="" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1076683878,820641541&fm=26&gp=0.jpg"/>
-                      <p>每逢四月，总会想起林徽因的现代诗《你是人间四月天》，这首诗一是为悼念徐志摩，二是为喜迎儿子梁从诫的出生所作。林徽因，比张爱玲大16岁，同为民国奇女子的她，在建筑学方面造诣颇深，令人叹为观止的设计作品，永远留在了她热爱的这片土地。</p> <p>每逢四月，总会想起林徽因的现代诗《你是人间四月天》，这首诗一是为悼念徐志摩，二是为喜迎儿子梁从诫的出生所作。林徽因，比张爱玲大16岁，同为民国奇女子的她，在建筑学方面造诣颇深，令人叹为观止的设计作品，永远留在了她热爱的这片土地。</p> <p>每逢四月，总会想起林徽因的现代诗《你是人间四月天》，这首诗一是为悼念徐志摩，二是为喜迎儿子梁从诫的出生所作。林徽因，比张爱玲大16岁，同为民国奇女子的她，在建筑学方面造诣颇深，令人叹为观止的设计作品，永远留在了她热爱的这片土地。</p>`
+            title:'',
+            content:''
         }
     }
 );
+const mapActions = {
+    [CHANGE_ARTICLE](state,action) {
+        let data = action.data;
+       return state.set('article',fromJS(data));
+    }
+}
 export default function(state=defaultState,action) {
+    if(mapActions[action.type]) {
+        return mapActions[action.type](state,action);
+    }
     return state;
 };

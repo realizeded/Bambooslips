@@ -10,7 +10,7 @@ function Topic(props) {
                     topicList.map(item=>{
                         return (                
                         <TopicItem key={item.get('id')}>
-                            <img src={item.get('src')}/>
+                            <img alt="" src={item.get('src')}/>
                             <span>{item.get('text')}</span>
                             </TopicItem>);
                     })

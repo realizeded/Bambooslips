@@ -1,0 +1,4 @@
+const CHANGE_ARTICLE = 'CHANGE_ARTICLE';
+export {
+    CHANGE_ARTICLE
+}

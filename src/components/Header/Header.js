@@ -9,6 +9,7 @@ import {getSearchInputBlur,getSearchInputFocused,getList as getSearchList,
     getMouseInAction,
     getMouseOutAction} from '../../store/actionCreators';
 import {Link} from 'react-router-dom';
+import {getChangeLoginAction} from '../../pages/Login/store/actionCreators';
 class Header extends PureComponent{
     constructor(props) {
         super(props);
@@ -43,7 +44,7 @@ class Header extends PureComponent{
         );
     }
     render() {
-        const {focused,handleInputBlur,handleInputFocus,list} = this.props;
+        const {handleLogOut,isLogin,focused,handleInputBlur,handleInputFocus,list} = this.props;
         return (<HeaderStyle>
                <Link to="/">
                    <LoGo/>
@@ -51,7 +52,10 @@ class Header extends PureComponent{
             <Nav>
                 <NavItem className="left active">首页</NavItem>
                 <NavItem className="left">下载App</NavItem>
-                <NavItem className="right">登陆</NavItem>
+                {
+                    (!isLogin)? <Link to="/login"><NavItem className="right">登陆</NavItem></Link>:<NavItem className="right" onClick={handleLogOut}>退出</NavItem>
+                }
+               
                 <NavItem className="right">Aa</NavItem>
                 <SearchWrapper>
                     <CSSTransition in={focused} timeout={200} classNames="slider">
@@ -81,7 +85,8 @@ const mapStateToProps = function(state) {
     return {
         focused:state.get('header').get('focused'),
         list:state.get('header').get('list'),
-        mouseIn:state.getIn(['header','mouseIn'])
+        mouseIn:state.getIn(['header','mouseIn']),
+        isLogin:state.getIn(['login','isLogin'])
     };
 }
 const mapDispatchToProps = function(dispatch) {
@@ -112,6 +117,10 @@ const mapDispatchToProps = function(dispatch) {
             originDeg = parseInt(originDeg)+360;
             this.rotateIcon.style.transform = `rotate(${originDeg}deg)`;
             // console.log(this.rotateIcon.style.transform)
+        },
+        handleLogOut() {
+            const action = getChangeLoginAction();
+            dispatch(action);
         }
     };
 }

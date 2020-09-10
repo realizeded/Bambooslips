@@ -1,0 +1,4 @@
+const CHANGE_IS_LOGIN = 'CHANGE_IS_LOGIN';
+export {
+    CHANGE_IS_LOGIN
+}

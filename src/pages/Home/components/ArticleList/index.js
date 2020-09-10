@@ -10,8 +10,8 @@ function ArticleList(props) {
             {
                 articleList.map(item=>{
                     return (
-                        <Link to="/detail" >
-                        <ArticleItem key={item.id}>
+                        <Link to={'/detail/'+item.get('id')} >
+                        <ArticleItem key={item.get('id')}>
                         <img  src={item.get('src')} alt=""/>
                         <div>
                             <h4>{item.get('title')}</h4>
