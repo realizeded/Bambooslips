@@ -9,6 +9,7 @@ import {getSearchInputBlur,getSearchInputFocused,getList as getSearchList,
     getMouseInAction,
     getMouseOutAction} from '../../store/actionCreators';
 import {Link} from 'react-router-dom';
+
 import {getChangeLoginAction} from '../../pages/Login/store/actionCreators';
 class Header extends PureComponent{
     constructor(props) {
@@ -71,10 +72,12 @@ class Header extends PureComponent{
 
                 <Addition>
                     <Button className="sign">注册</Button>
-                    <Button className="wrarticle">
-                    <i className="iconfont">&#xe96a;</i>
-                        写文章
+                    <Link to="/write">
+                        <Button className="wrarticle">
+                        <i className="iconfont">&#xe96a;</i>
+                            写文章
                         </Button>
+                    </Link>
                     </Addition>
                 </Nav>
                 
