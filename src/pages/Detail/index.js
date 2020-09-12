@@ -2,6 +2,7 @@ import React,{PureComponent} from 'react';
 import {DetailWrapper,DetailBodyWrapper,Content} from './style';
 import {connect} from 'react-redux';
 import {getAjaxDetailArticle} from './store/actionCreators';
+import {withRouter} from 'react-router-dom';
 class Detail extends PureComponent {
     constructor(props) {
         super(props);
@@ -39,4 +40,4 @@ const mapDispatchToProps = function(dispatch) {
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Detail);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Detail));
